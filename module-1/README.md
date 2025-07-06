@@ -49,11 +49,15 @@ Login via the Azure CLI (should be installed already):
 ```sh
 az login #should open a webpage
 
-# Be sure to use the right subscription for this workshop
+az account show # to validate that you're logged in
+
+# Be sure to use the right subscription for this workshop - DataCouch is what we use
 az account set -s "DataCouch"
 ```
 
-Remember, all resources (like VMs, storage, etc.) must be created in a subscription to keep track of cost/billing AND a resource group (to group logically related resources) - read here: https://github.com/varoonsahgal/tf-az-wt/wiki/Azure-subscriptions-and-resources
+Remember, all resources (like VMs, storage, etc.) must be created in a subscription to keep track of cost/billing - read here: https://github.com/varoonsahgal/tf-az-wt/wiki/Azure-subscriptions-and-resources
+
+In addition all resources must be part of a resource group (to group logically related resources)
 
 
 **Option 2**
@@ -101,9 +105,8 @@ Terraform supports a huge amount of providers. A full list of these providers, i
 
 
 The code block above will tell Terraform to install the official `azurerm` provider. This is the bare minimum required to install the required files when you initialize Terraform. You can also specify provider settings or version constraints.<p>
-Terraform supports a huge amount of providers.
 
-> Now navigate to this folder using your commandline and run `terraform init` to initialize Terraform.
+> Now, navigate to this folder where you have the main.tf file and using your commandline run `terraform init` to initialize Terraform.
 
 <details>
 <summary>If Terraform initialized successfully, you will see the following output:</summary>
