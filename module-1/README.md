@@ -231,7 +231,7 @@ Creating this resource in Azure is done by following [The Core Terraform Workflo
 
 Mind the part at the bottom. We see that Terraform plans to add 1 resource, change 0 and destroy 0. This is what we want.
 
-Now we can run `terraform apply` to finalize these changes. Terraform will show you the plan again, but also ask you to confirm the changes. Type 'yes' to apply the changes. *Pro tip:* Add the `-auto-approve` flag to skip this prompt.
+Now we can run `terraform apply` to finalize these changes and to actually create the Azure resource group. Terraform will show you the plan again, but also ask you to confirm the changes. Type 'yes' to apply the changes. *Pro tip:* Add the `-auto-approve` flag to skip this prompt.
 
 <details>
 <summary>Output</summary>
@@ -245,7 +245,7 @@ Now we can run `terraform apply` to finalize these changes. Terraform will show 
     # azurerm_resource_group.rg will be created
     + resource "azurerm_resource_group" "rg" {
         + id       = (known after apply)
-        + location = "westUS2"
+        + location = "westus2"
         + name     = "watech-vsahgal-rg"
         }
 
@@ -258,14 +258,21 @@ Now we can run `terraform apply` to finalize these changes. Terraform will show 
     Enter a value: yes
 
     azurerm_resource_group.bctf-rg: Creating...
-    azurerm_resource_group.bctf-rg: Creation complete after 3s [id=/subscriptions/SUBSCRIPTION_ID/resourceGroups/bctf-tdejong-rg]
+    azurerm_resource_group.bctf-rg: Creation complete after 3s [id=/subscriptions/SUBSCRIPTION_ID/resourceGroups/watech-vsahgal-rg]
 
     Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 
 </details>
 <p></p>
 
-Great success!! You've created your first resource using Terraform.
+Great success!! You've created your first Azure resource using Terraform.
+
+One thing to note: A resource in TERRAFORM is a broader concept than a  resource group in Azure.  In Terraform, a resource is a block of code that defines and manages a single infrastructure object - which can be anything like a VM, a storage account, a VNet, etc..  Terraform resource blocks are used with all cloud providers, including AWS, Azure, GCP, and many others.
+
+In Azure, a resource group (note: it's not just called a "resource") is a container/wrapper for Azure resources meant to deploy, manage, and monitor multiple resources as a single unit.
+
+
+
 
 ## Level 2: Reference this RG in your second resource - a storage account
 
