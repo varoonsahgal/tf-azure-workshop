@@ -296,18 +296,20 @@ resource "azurerm_storage_account" "watech-sa" {
 <details>
 <summary>Solution</summary>
 
-resource "azurerm_storage_account" "watech-sa" {
-  name                     = "watechvsahgalsa"
-  resource_group_name      = azurerm_resource_group.watech-rg.name
-  location                 = "westus2"
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-}
+    resource "azurerm_storage_account" "watech-sa" {
+        name                     = "watechvsahgalsa"
+        resource_group_name      = azurerm_resource_group.watech-rg.name
+        location                 = "westus2"
+        account_tier             = "Standard"
+        account_replication_type = "LRS"
+    }
 
 </details>
 <p></p>
 
-If you want you can run the Terraform workflow again to see if your code is working as expected. `terraform apply` should show `1 to add, 0 to change, 0 to destroy`.
+If you want you can run the Terraform workflow again to see if your code is working as expected - so do a `terraform plan` first.
+
+Then, run `terraform apply` and if it works it should show `1 to add, 0 to change, 0 to destroy`.
 
 NOTE: You might see an error regarding the storage account name - unlike most Azure resources, the storage account name is not allowed to contain any special characters. We will get to this later. For now, give it a name similar to the snippet above.
 
