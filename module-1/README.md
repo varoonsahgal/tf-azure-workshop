@@ -210,7 +210,7 @@ Terraform used the selected providers to generate the following execution plan. 
 
 Terraform will perform the following actions:
 
-  # azurerm_resource_group.watech-rg will be created
+  azurerm_resource_group.watech-rg will be created
   + resource "azurerm_resource_group" "watech-rg" {
       + id       = (known after apply)
       + location = "westus2"
@@ -219,7 +219,7 @@ Terraform will perform the following actions:
 
 Plan: 1 to add, 0 to change, 0 to destroy.
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────────────────────────────────────────────────────────────
 
 Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform apply" now.
 
