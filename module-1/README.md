@@ -20,16 +20,16 @@ And you can also earn **Bonus points**! These are not included in the full solut
 
 See how far you can get during the workshop:
 
-- **Level 0: Install Terraform and connect to Azure**
-- **Level 1: Deploy your first resource - a resource group**
-- **Level 2: Reference this RG in your second resource - a storage account**
-- **Level 3: Create a variable and output file**
-- **Level 4: Enforce a naming convention and tags using locals**
-- **Level 5: Creating a subnet in an existing virtual network**
-- **Level 6: Create and output a network card with a dynamic public IP address for the virtual machine**
-- **Level 7: Generate and output a SSH key pair for the machine**
-- **Level 8: Create the virtual machine and connect to it**
-- **Level 9: Destroy all of your resources**
+- [**Level 0: Install Terraform and connect to Azure**](#level-0-install-terraform-and-connect-to-azure)
+- [**Level 1: Deploy your first resource - a resource group**](#level-1-create-your-first-resource---a-resource-group)
+- [**Level 2: Reference this RG in your second resource - a storage account**](#level-2-reference-this-rg-in-your-second-resource---a-storage-account)
+- [**Level 3: Create a variable and output file**](#level-3-create-a-variable-and-output-file)
+- [**Level 4: Enforce a naming convention and tags using locals**](#level-4-enforce-a-naming-convention-and-tags-using-locals)
+- [**Level 5: Creating a subnet in an existing virtual network**](#level-5-creating-a-subnet-in-an-existing-virtual-network)
+- [**Level 6: Create and output a network card with a dynamic public IP address for the virtual machine**](#level-6-create-and-output-a-network-card-with-a-dynamic-public-ip-address-for-the-virtual-machine)
+- [**Level 7: Generate and output a SSH key pair for the machine**](#level-7-generate-and-output-a-ssh-key-pair-for-the-machine)
+- [**Level 8: Create the virtual machine and connect to it**](#level-8-create-the-virtual-machine-and-connect-to-it)
+- [**Level 9: Destroy all of your resources**](#level-9-destroy-all-of-your-resources)
 
 Some general tips before you start:
 
