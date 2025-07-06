@@ -1,4 +1,4 @@
-d# Module 1: Introduction to Terraform
+# Module 1: Introduction to Terraform
 
 # The Challenge
 
