@@ -45,7 +45,7 @@ Some general tips before you start:
 
 **Option 1**
 
-Login via the Azure CLI:
+Login via the Azure CLI (should be installed already):
 
 ```sh
 az login
@@ -80,8 +80,26 @@ provider "azurerm" {
 }
 ```
 
-This will tell Terraform to install the official `azurerm` provider. This is the bare minimum required to install the required files when you initialize Terraform. You can also specify provider settings or version constraints.<p>
+azurerm stands for Azure Resource Manager, which is the modern deployment and management service for Azure.
+
+In Terraform, a provider is a plugin that lets Terraform interact with external platforms or services—like cloud providers, SaaS APIs, or on-prem systems.
+
+In Simple Terms:
+A provider is how Terraform knows how to talk to something like:
+
+Azure → via the azurerm provider
+
+AWS → via the aws provider
+
+Google Cloud → via the google provider
+
+GitHub, Datadog, Kubernetes, etc.
+
 Terraform supports a huge amount of providers. A full list of these providers, including documentation, can be found in the [Terraform Registry](https://registry.terraform.io/browse/providers).
+
+
+The code block above will tell Terraform to install the official `azurerm` provider. This is the bare minimum required to install the required files when you initialize Terraform. You can also specify provider settings or version constraints.<p>
+Terraform supports a huge amount of providers.
 
 > Now navigate to this folder using your commandline and run `terraform init` to initialize Terraform.
 
