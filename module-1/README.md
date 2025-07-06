@@ -332,21 +332,22 @@ Note: Any file that has the name `terraform.tfvars` or ends with `*.auto.tfvars`
 We also want a variable for the Azure region to deploy in, so we don't need to repeat this every time. You can also use the expression syntax for this, but the variable way is the nicer option.
 > Add this `location` variable to your `variables.tf` file so it contains two variables. Save and close the file.
 
-**Bonus points**: use variable validation to ensure the variable containing your name is no longer than 10 characters. Even more bonus points if you enforce the variable to only allow the values `westeurope` or `northeurope`.
+**Bonus points**: use variable validation to ensure the variable containing your name is no longer than 10 characters. Even more bonus points if you enforce the variable to only allow the values `westus2` or `westus3`.
 
-> Now, edit your `main.tf` file to reflect your variables. Remove the `<yourname>/<your_name>` snippets and replace `westeurope` as the `location` value. The additional information provided on expressions should help you with this.
+> Now, edit your `main.tf` file to reflect your variables. Remove the `<yourname>/<your_name>` snippets and replace `westus2` as the `location` value. The additional information provided on expressions should help you with this.
+> Also read here on variable interpolation: https://developer.hashicorp.com/terraform/language/expressions/strings#interpolation
 
 <details>
 <summary>Solution</summary>
 
-    resource "azurerm_resource_group" "bctf-rg" {
-        name     = "bctf-${var.yourname}-rg"
+    resource "azurerm_resource_group" "watech-rg" {
+        name     = "watech-${var.yourname}-rg"
         location = var.location 
         ...
     }
 
-    resource "azurerm_storage_account" "bctf-sa" {
-        name     = "bctf${var.yourname}sa"
+    resource "azurerm_storage_account" "watech-sa" {
+        name     = "watech${var.yourname}sa"
         location = var.location 
         ...
     }
@@ -357,8 +358,8 @@ There are several ways to supply your variable values to Terraform. Pick any of 
 > Create a file called `terraform.tfvars` containing the following:
 
 ```
-location = "westeurope"
-yourname = "tdejong"
+location = "westus2"
+yourname = "vsahgal"
 ```
 
 Now, when you run `terraform apply`, nothing should change, which is exactly what we want. You can go ahead and experiment a bit and see what would happen if you used different values.
