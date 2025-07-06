@@ -2,7 +2,7 @@
 
 # The Challenge
 
-You will use Terraform to create some basic infrastructure in the Bright Cubes Azure Subscription.
+You will use Terraform to create some basic infrastructure in our Azure Subscription.
 
 In this module, we will work with most of the basic uses of Terraform. We will work with variables, outputs, locals, expressions, data sources, providers and the Core Terraform Workflow. Things like modules, functions, (remote) state, workspaces are purposely left out of scope. The ultimate goal is to deploy a Linux virtual machine in an existing Azure VNet.
 
