@@ -245,8 +245,8 @@ Now we can run `terraform apply` to finalize these changes. Terraform will show 
     # azurerm_resource_group.rg will be created
     + resource "azurerm_resource_group" "rg" {
         + id       = (known after apply)
-        + location = "westeurope"
-        + name     = "bctf-tdejong-rg"
+        + location = "westUS2"
+        + name     = "watech-vsahgal-rg"
         }
 
     Plan: 1 to add, 0 to change, 0 to destroy.
