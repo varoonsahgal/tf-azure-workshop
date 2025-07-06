@@ -54,6 +54,8 @@ az account set -s "DataCouch"
 ```
 
 Remember, all resources (like VMs, storage, etc.) must be created in a subscription to keep track of cost/billing AND a resource group (to group logically related resources) - read here: https://github.com/varoonsahgal/tf-az-wt/wiki/Azure-subscriptions-and-resources
+
+
 **Option 2**
 
 If you do not have the Azure CLI installed, you can use a service principal. If this is needed, the details will be shared during the workshop.
