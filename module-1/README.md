@@ -1,4 +1,4 @@
-# Module 1: Introduction to Terraform
+d# Module 1: Introduction to Terraform
 
 # The Challenge
 
@@ -87,6 +87,8 @@ provider "azurerm" {
 ```
 
 azurerm stands for Azure Resource Manager, which is the modern deployment and management service for Azure.
+
+### What's a provider plugin?
 
 In Terraform, a provider is a plugin that lets Terraform interact with external platforms or services—like cloud providers, SaaS APIs, or on-prem systems.
 
