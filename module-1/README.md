@@ -205,26 +205,23 @@ Creating this resource in Azure is done by following [The Core Terraform Workflo
 <details>
 <summary>Output</summary>
 
-    An execution plan has been generated and is shown below.
-    Resource actions are indicated with the following symbols:
-    + create
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
 
-    Terraform will perform the following actions:
+Terraform will perform the following actions:
 
-    # azurerm_resource_group.rg will be created
-    + resource "azurerm_resource_group" "bctf-rg" {
-        + id       = (known after apply)
-        + location = "westeurope"
-        + name     = "bctf-tdejong-rg"
-        }
+  # azurerm_resource_group.watech-rg will be created
+  + resource "azurerm_resource_group" "watech-rg" {
+      + id       = (known after apply)
+      + location = "westus2"
+      + name     = "watech-vsahgal-rg"
+    }
 
-    Plan: 1 to add, 0 to change, 0 to destroy.
+Plan: 1 to add, 0 to change, 0 to destroy.
 
-    ------------------------------------------------------------------------
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-    Note: You didn't specify an "-out" parameter to save this plan, so Terraform
-    can't guarantee that exactly these actions will be performed if
-    "terraform apply" is subsequently run.
+Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform apply" now.
 
 </details>
 <p></p>
