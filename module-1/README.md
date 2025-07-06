@@ -170,6 +170,9 @@ You can find additional documentation on this resource (and all other possible r
 ```hcl
 provider "azurerm" {
   features {}
+
+  subscription_id = "<GET-VALUE-FROM-INSTRUCTOR>"
+
 }
 
 resource "azurerm_resource_group" "watech-rg" {
@@ -177,6 +180,10 @@ resource "azurerm_resource_group" "watech-rg" {
   location = "westus2"
 }
 ```
+
+Add your subscription to the the provider block.  IF you set the enviornment variable earlier, the problem would be that if you create a new shell session it will not pull that variable.
+
+Note, that from a security standpoint this is not great since our subscription id would be exposed in a github repo - NEVER a good idea in real world, but for now it's fine.  We will look at alternatives later.
 
 ### location is region
 
