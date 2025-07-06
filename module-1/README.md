@@ -47,12 +47,13 @@ Some general tips before you start:
 Login via the Azure CLI (should be installed already):
 
 ```sh
-az login
+az login #should open a webpage
 
 # Be sure to use the right subscription for this workshop
-az account set -s "SUBSCRIPTION_ID"
+az account set -s "DataCouch"
 ```
 
+Remember, all resources (like VMs, storage, etc.) must be created in a subscription to keep track of cost/billing AND a resource group (to group logically related resources) - read here: https://github.com/varoonsahgal/tf-az-wt/wiki/Azure-subscriptions-and-resources
 **Option 2**
 
 If you do not have the Azure CLI installed, you can use a service principal. If this is needed, the details will be shared during the workshop.
