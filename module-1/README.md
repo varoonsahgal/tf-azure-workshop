@@ -271,7 +271,7 @@ One thing to note: A resource in TERRAFORM is a broader concept than a  resource
 
 In Azure, a resource group (note: it's not just called a "resource") is a container/wrapper for Azure resources meant to deploy, manage, and monitor multiple resources as a single unit.
 
-
+Now that you created a resource group in Azure, go to the Azure Portal to validate that it does indeed exist!
 
 
 ## Level 2: Reference this RG in your second resource - a storage account
@@ -279,13 +279,15 @@ In Azure, a resource group (note: it's not just called a "resource") is a contai
 We also need a storage account to store some boot diagnostics data. One of the strengths of Terraform's language (HCL) are its [expressions](https://www.terraform.io/docs/language/expressions/references.html).
 You can use this to create clean, dynamic code that uses references instead of hardcoded values. One of the most basic uses is the reference to a resource attribute, like the name or ID of the resource. You can reference variables, local values, resources, data sources, outputs or any Terraform component you'd like.
 
+For context for those of you more familiar with AWS: in AWS, the closest equivalent to an Azure Storage Account is Amazon S3, but it's not a 1:1 match because Azure Storage Account includes multiple types of storage under one service.
+
 > Let's start with using this expression syntax to reference the resource group name in the storage account resource. I'll leave it to you to fix the snippet below. Change the name of the storage account like you did with the resource group, and use the expression syntax to reference the name of the resource group. Add this to your `main.tf` when you've figured it out.
 
 ```hcl
-resource "azurerm_storage_account" "bctf-sa" {
-  name                     = "bctf<yourname>sa"
-  resource_group_name      = "bctf-<your_name>-rg"
-  location                 = "westeurope"
+resource "azurerm_storage_account" "watech-sa" {
+  name                     = "watech<yourname>sa"
+  resource_group_name      = "watech-<your_name>-rg"
+  location                 = "westus2"
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
@@ -295,9 +297,9 @@ resource "azurerm_storage_account" "bctf-sa" {
 <summary>Solution</summary>
 
     resource "azurerm_storage_account" "bctf-sa" {
-        name                     = "bctftdejongsa"
-        resource_group_name      = azurerm_resource_group.bctf-rg.name
-        location                 = "westeurope"
+        name                     = "watechvsahgalsa"
+        resource_group_name      = azurerm_resource_group.watech-rg.name
+        location                 = "westus2"
         account_tier             = "Standard"
         account_replication_type = "LRS"
     }
