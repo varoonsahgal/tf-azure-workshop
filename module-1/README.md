@@ -55,9 +55,15 @@ az account show # to validate that you're logged in
 az account set -s "DataCouch"
 ```
 
-Remember, all resources (like VMs, storage, etc.) must be created in a subscription to keep track of cost/billing - read here: https://github.com/varoonsahgal/tf-az-wt/wiki/Azure-subscriptions-and-resources
+You will also need to run this to set the subscription, the instructor will provide the full ID as well:
 
-In addition all resources must be part of a resource group (to group logically related resources)
+```
+export ARM_SUBSCRIPTION_ID="<instructor-will-provide>"
+```
+
+Remember, all resources in Azure (like VMs, storage, etc.) must be created in a subscription to keep track of cost/billing - read here: https://github.com/varoonsahgal/tf-az-wt/wiki/Azure-subscriptions-and-resources
+
+In addition all resources in Azure must be part of a resource group (to group logically related resources)
 
 
 **Option 2**
