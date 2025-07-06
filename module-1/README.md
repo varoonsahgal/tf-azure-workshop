@@ -80,7 +80,7 @@ You can also connect to Azure using certificates or managed identities, but that
 
 Getting started with Terraform is easy. We have alread installed it for you, but you can easily do so in the future using Homebrew or Chocolatey. More information can be found [here](https://learn.hashicorp.com/tutorials/terraform/install-cli?in=terraform/azure-get-started).
 
-> Create a file named `main.tf` ( just put it in a folder called `tf-workshop` and then create a sub-folder called `module1` ) and simply add the following.
+> Create a file named `main.tf` ( just put it in a folder called `tf-workshop` and then create a sub-folder called `module1` ) and simply add the following.  Open the file in the VSCode editor to make your life easier.  Turn on Auto-Save (ask instructor if that info is not shared)
 
 ```hcl
 provider "azurerm" {
