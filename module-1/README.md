@@ -62,6 +62,8 @@ In addition all resources must be part of a resource group (to group logically r
 
 **Option 2**
 
+Note: this option is not really necessary so you can safely skip, but just kept here as an FYI.
+
 If you do not have the Azure CLI installed, you can use a service principal. If this is needed, the details will be shared during the workshop.
 <p> Set the following environment variables:
 
@@ -157,18 +159,31 @@ Now we can go ahead and start creating Azure resources using Terraform!
 First, we will create a resource group that will contain your resources for this workshop. We will use the `azurerm_resource_group` resource for this. Be sure to change your name in the example below.
 You can find additional documentation on this resource (and all other possible resources for the `azurerm` provider) [here](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group).
 
-> Since we will all be working in the same Azure subscription, we will need unique names for our resources. So be sure to edit the snippet below, replacing <your_name> with your name (eg. 'tdejong' - lose the <>), and add this to your `main.tf` file:
+> Since we will all be working in the same Azure subscription, we will need unique names for our resources. So be sure to edit the snippet below, replacing <your_name> with your name (eg. 'vsahgal' - lose the <>), and add this to your `main.tf` file:
 
 ```hcl
 provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "bctf-rg" {
-  name     = "bctf-<your_name>-rg"
-  location = "westeurope"
+resource "azurerm_resource_group" "watech-rg" {
+  name     = "watech-<your_name>-rg"
+  location = "westus2"
 }
 ```
+
+### location is region
+
+Above, location refers to the region the resource group will live in. So, why not just use the word region?  Because: 
+
+- Azure's underlying Resource Manager (ARM) APIs use the property name location to specify where to deploy the resource.
+
+- Terraform's azurerm provider is just a wrapper for those APIs — so it uses the same field name: location.
+
+
+NOTE: this just creates a resource group, which is just meant to be a wrapper around resources.  No actual resources being created just yet...
+
+**If you were instructed to use a different region like westus3 instead of 2, just replace it in your code please!**
 
 Creating this resource in Azure is done by following [The Core Terraform Workflow](https://www.terraform.io/guides/core-workflow.html) - Write, Plan, Apply. We just did the 'Write' part, so run:
 
