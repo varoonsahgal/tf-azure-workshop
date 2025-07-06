@@ -139,6 +139,15 @@ The code block above will tell Terraform to install the official `azurerm` provi
 
 </details>
 
+### Why the features block in the code above?
+
+Starting with version 2.0 of the azurerm provider, Terraform requires the features block to be explicitly defined.
+
+It acts as a placeholder for provider-specific configuration flags.
+
+You can customize behaviors for certain resource types inside it.
+
+### Moving on...
 Now we can go ahead and start creating Azure resources using Terraform!
 
 ## Level 1: Create your first resource - a resource group
