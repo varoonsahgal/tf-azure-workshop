@@ -521,7 +521,7 @@ TIP: Start looking around in the [provider documentation](https://registry.terra
 
 </details>
 
-We don't have to run `terraform apply`, since simply adding the data source doesn't do anything. We can now reference this existing virtual network in the creation of our own subnet within this network. When we create the subnet using Terraform, the lifecycle of the subnet will be tied to your Terraform code, but the virtual network is not. This means that when we `destroy` our Terraform infrastructure, the subnet will be destroyed but the existing subnet will be left untouched. If we would have *imported* the vitual network, it would be destroyed as well.
+We don't have to run `terraform apply`, since simply adding the data source doesn't do anything. We can now reference this existing virtual network in the creation of our own subnet within this network. When we create the subnet using Terraform, the lifecycle of the subnet will be tied to your Terraform code, but the virtual network is not. This means that when we `destroy` our Terraform infrastructure, the subnet will be destroyed but the existing virtual network will be left untouched. If we would have *imported* the vitual network, it would be destroyed as well.
 
 > Next, create a subnet in this virtual network data source. Use the expression syntax again to reference the virtual network and resource group. Also remember to use our naming convention. For the address prefix, you can pick any number in the *[10.0.<1-255>.0/24]* range. Let's hope none of you collide ;)
 
