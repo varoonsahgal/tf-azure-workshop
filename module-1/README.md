@@ -386,8 +386,8 @@ Terraform will now output the full resource IP attribute at the end of `terrafor
 <details>
 <summary>Output</summary>
 
-    azurerm_resource_group.bctf-rg: Refreshing state... [id=/subscriptions/582089b7-6ffa-47b0-8b9b-65f7c583852b/resourceGroups/bctf-tdejong-rg]
-    azurerm_storage_account.bctf-sa: Refreshing state... [id=/subscriptions/582089b7-6ffa-47b0-8b9b-65f7c583852b/resourceGroups/bctf-tdejong-rg/providers/Microsoft.Storage/storageAccounts/bctftdejongsa]
+    azurerm_resource_group.bctf-rg: Refreshing state... [id=/subscriptions/582089b7-6ffa-47b0-8b9b-65f7c583852b/resourceGroups/bctf-vsahgal-rg]
+    azurerm_storage_account.bctf-sa: Refreshing state... [id=/subscriptions/582089b7-6ffa-47b0-8b9b-65f7c583852b/resourceGroups/bctf-vsahgal-rg/providers/Microsoft.Storage/storageAccounts/bctfvsahgalsa]
 
     An execution plan has been generated and is shown below.
     Resource actions are indicated with the following symbols:
@@ -397,7 +397,7 @@ Terraform will now output the full resource IP attribute at the end of `terrafor
     Plan: 0 to add, 0 to change, 0 to destroy.
 
     Changes to Outputs:
-    + bctf_rg_id = "/subscriptions/582089b7-6ffa-47b0-8b9b-65f7c583852b/resourceGroups/bctf-tdejong-rg"
+    + bctf_rg_id = "/subscriptions/582089b7-6ffa-47b0-8b9b-65f7c583852b/resourceGroups/bctf-vsahgal-rg"
 
     Do you want to perform these actions?
     Terraform will perform the actions described above.
@@ -410,7 +410,7 @@ Terraform will now output the full resource IP attribute at the end of `terrafor
 
     Outputs:
 
-    bctf_rg_id = "/subscriptions/582089b7-6ffa-47b0-8b9b-65f7c583852b/resourceGroups/bctf-tdejong-rg"
+    bctf_rg_id = "/subscriptions/582089b7-6ffa-47b0-8b9b-65f7c583852b/resourceGroups/bctf-vsahgal-rg"
 
 </details>
 <p></p>
