@@ -212,7 +212,7 @@ Creating this resource in Azure is done by following [The Core Terraform Workflo
     Terraform will perform the following actions:
 
     # azurerm_resource_group.rg will be created
-    + resource "azurerm_resource_group" "bctf-rg" {
+    + resource "azurerm_resource_group" "watech-rg" {
         + id       = (known after apply)
         + location = "westus2"
         + name     = "watech-vsahgal-rg"
@@ -257,8 +257,8 @@ Now we can run `terraform apply` to finalize these changes and to actually creat
 
     Enter a value: yes
 
-    azurerm_resource_group.bctf-rg: Creating...
-    azurerm_resource_group.bctf-rg: Creation complete after 3s [id=/subscriptions/SUBSCRIPTION_ID/resourceGroups/watech-vsahgal-rg]
+    azurerm_resource_group.watech-rg: Creating...
+    azurerm_resource_group.watech-rg: Creation complete after 3s [id=/subscriptions/SUBSCRIPTION_ID/resourceGroups/watech-vsahgal-rg]
 
     Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 
@@ -373,9 +373,9 @@ In this workshop we will experiment with outputs by outputting the resource ID o
 <details>
 <summary>Solution</summary>
 
-    output "bctf_rg_id" {
+    output "watech_rg_id" {
         description = "Returns the ID of the created resource group"
-        value       = azurerm_resource_group.bctf-rg.id
+        value       = azurerm_resource_group.watech-rg.id
     }
 
 </details>
@@ -386,8 +386,8 @@ Terraform will now output the full resource IP attribute at the end of `terrafor
 <details>
 <summary>Output</summary>
 
-    azurerm_resource_group.bctf-rg: Refreshing state... [id=/subscriptions/582089b7-6ffa-47b0-8b9b-65f7c583852b/resourceGroups/bctf-vsahgal-rg]
-    azurerm_storage_account.bctf-sa: Refreshing state... [id=/subscriptions/582089b7-6ffa-47b0-8b9b-65f7c583852b/resourceGroups/bctf-vsahgal-rg/providers/Microsoft.Storage/storageAccounts/bctfvsahgalsa]
+    azurerm_resource_group.watech-rg: Refreshing state... [id=/subscriptions/582089b7-6ffa-47b0-8b9b-65f7c583852b/resourceGroups/watech-vsahgal-rg]
+    azurerm_storage_account.watech-sa: Refreshing state... [id=/subscriptions/582089b7-6ffa-47b0-8b9b-65f7c583852b/resourceGroups/watech-vsahgal-rg/providers/Microsoft.Storage/storageAccounts/watechvsahgalsa]
 
     An execution plan has been generated and is shown below.
     Resource actions are indicated with the following symbols:
@@ -397,7 +397,7 @@ Terraform will now output the full resource IP attribute at the end of `terrafor
     Plan: 0 to add, 0 to change, 0 to destroy.
 
     Changes to Outputs:
-    + bctf_rg_id = "/subscriptions/582089b7-6ffa-47b0-8b9b-65f7c583852b/resourceGroups/bctf-vsahgal-rg"
+    + watech_rg_id = "/subscriptions/582089b7-6ffa-47b0-8b9b-65f7c583852b/resourceGroups/watech-vsahgal-rg"
 
     Do you want to perform these actions?
     Terraform will perform the actions described above.
@@ -410,7 +410,7 @@ Terraform will now output the full resource IP attribute at the end of `terrafor
 
     Outputs:
 
-    bctf_rg_id = "/subscriptions/582089b7-6ffa-47b0-8b9b-65f7c583852b/resourceGroups/bctf-vsahgal-rg"
+    watech_rg_id = "/subscriptions/582089b7-6ffa-47b0-8b9b-65f7c583852b/resourceGroups/watech-vsahgal-rg"
 
 </details>
 <p></p>
@@ -425,34 +425,34 @@ Local values are a very powerful mechanism in Terraform. You can use it to make 
 They are especially useful for declaring reusable blocks of code in which you can reference variables. You can use *variables* to configure a Terraform template, and use *locals* to use these variables in an expression. 
 
 ### Naming convention
-A popular use for locals is for making sure all resources follow the same naming convention. Let's say we want to name all our resources `bctf-<your_name>-<location>-` followed by the resource type. Of course, you can use the following method:
+A popular use for locals is for making sure all resources follow the same naming convention. Let's say we want to name all our resources `watech-<your_name>-<location>-` followed by the resource type. Of course, you can use the following method:
 
 ```hcl
-resource "azurerm_resource_group" "bctf-rg" {
-  name = "bctf-${var.yourname}-${var.location}-rg"
+resource "azurerm_resource_group" "watech-rg" {
+  name = "watech-${var.yourname}-${var.location}-rg"
   ...
 }
 
-resource "azurerm_storage_account" "bctf-sa" {
-  name = "bctf${var.yourname}${var.location}sa"
+resource "azurerm_storage_account" "watech-sa" {
+  name = "watech${var.yourname}${var.location}sa"
   ...
 }
 ```
 
-But let's say we keep adding resources and later on don't like the `bctf` part. Then we need to go over all resources and change this part everywhere. You can make it a variable, but that would mean it can be changed by anyone supplying a variable set. Ideally, you want to make this as some kind of variable tied to this template. Instead, you can create a local value `rootname` where you define this naming convention based on the variables provided.
+But let's say we keep adding resources and later on don't like the `watech` part. Then we need to go over all resources and change this part everywhere. You can make it a variable, but that would mean it can be changed by anyone supplying a variable set. Ideally, you want to make this as some kind of variable tied to this template. Instead, you can create a local value `rootname` where you define this naming convention based on the variables provided.
 
 > To create a locals block, append the following at the top of your `main.tf` file, under the `provider` blocks:
 > 
 ```hcl
 locals {
-    rootname = "bctf-${var.yourname}-${var.location}"
+    rootname = "watech-${var.yourname}-${var.location}"
 }
 ```
 
 > Since the storage account doesn't support special characters, create another local value called `trimmed_rootname` without the hyphens. It's worth noting that we can also just do the string replacement in the storage account name. But since we want to reuse this for the computer name later, we should make it a local value. <p>
 
 ```hcl
-trimmed_rootname = "bctf${var.yourname}${var.location}"
+trimmed_rootname = "watech${var.yourname}${var.location}"
 # ...or?
 trimmed_rootname = replace(local.rootname, "-", "")
 ```
@@ -473,8 +473,8 @@ Also add a tags property to your resources, referencing the `tags` block.
 <summary>Solution</summary>
 
     locals {
-        rootname         = "bctf-${var.yourname}-${var.location}"
-        trimmed_rootname = "bctf${var.yourname}${var.location}"
+        rootname         = "watech-${var.yourname}-${var.location}"
+        trimmed_rootname = "watech${var.yourname}${var.location}"
         tags = {
            "costCenter" = "BrightCubesInternal"
            "owner"      = var.yourname
@@ -482,15 +482,15 @@ Also add a tags property to your resources, referencing the `tags` block.
         }
     }
 
-    resource "azurerm_resource_group" "bctf-rg" {
+    resource "azurerm_resource_group" "watech-rg" {
         name     = "${local.rootname}-rg"
         location = var.location
         tags     = local.tags
     }
 
-    resource "azurerm_storage_account" "bctf-sa" {
+    resource "azurerm_storage_account" "watech-sa" {
         name                = "${local.trimmed_rootname}sa"
-        resource_group_name = azurerm_resource_group.bctf-rg.name
+        resource_group_name = azurerm_resource_group.watech-rg.name
         location            = var.location
         tags                = local.tags
 
@@ -507,16 +507,16 @@ Now, when you run `terraform apply`, both resources need to be recreated since w
 Terraform can also deal with existing resources. You can use `terraform import` to import existing resources into the state file, but there's a reason this feature has seen little development progress. You should use Terraform for resources that are created by Terraform itself, and not let it manage any resources it has not created itself.<p>
 Instead, use *data sources* to reference existing resources in your Terraform code. 
 
-> In this exercise, start with referencing the existing `bctf-workshop-vnet` in the `bctf-workshop-rg` resource group. Add this to your `main.tf` file.
+> In this exercise, start with referencing the existing `watech-workshop-vnet` in the `watech-workshop-rg` resource group. Add this to your `main.tf` file.
 
 TIP: Start looking around in the [provider documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs) to find the documentation on the `azurerm_virtual_network` resource.
 
 <details>
 <summary>Solution</summary>
 
-    data "azurerm_virtual_network" "bctf-vnet" {
-        name                = "bctf-workshop-vnet"
-        resource_group_name = "bctf-workshop-rg"
+    data "azurerm_virtual_network" "watech-vnet" {
+        name                = "watech-workshop-vnet"
+        resource_group_name = "watech-workshop-rg"
     }
 
 </details>
@@ -528,15 +528,15 @@ We don't have to run `terraform apply`, since simply adding the data source does
 <details>
 <summary>Solution</summary>
 
-    data "azurerm_virtual_network" "bctf-vnet" {
-        name                = "bctf-workshop-vnet"
-        resource_group_name = "bctf-workshop-rg"
+    data "azurerm_virtual_network" "watech-vnet" {
+        name                = "watech-workshop-vnet"
+        resource_group_name = "watech-workshop-rg"
     }
 
-    resource "azurerm_subnet" "bctf-subnet" {
+    resource "azurerm_subnet" "watech-subnet" {
         name                 = "${local.rootname}-subnet"
-        resource_group_name  = data.azurerm_virtual_network.bctf-vnet.resource_group_name
-        virtual_network_name = data.azurerm_virtual_network.bctf-vnet.name
+        resource_group_name  = data.azurerm_virtual_network.watech-vnet.resource_group_name
+        virtual_network_name = data.azurerm_virtual_network.watech-vnet.name
         address_prefixes     = ["10.0.80.0/24"]
     }
 
@@ -556,10 +556,10 @@ In order to connect to the virtual machine at the end of this workshop, we need 
 <summary>Solution</summary>
 
     # Add this to your main.tf
-    resource "azurerm_public_ip" "bctf-pip" {
+    resource "azurerm_public_ip" "watech-pip" {
         name                = "${local.rootname}-pip"
         location            = var.location
-        resource_group_name = azurerm_resource_group.bctf-rg.name
+        resource_group_name = azurerm_resource_group.watech-rg.name
         allocation_method   = "Dynamic"
         tags                = local.tags
     }
@@ -567,7 +567,7 @@ In order to connect to the virtual machine at the end of this workshop, we need 
     # Add this to your outputs.tf
     output "public_ip_address" {
         description = "The public IP address for the virtual machine"
-        value       = azurerm_public_ip.bctf-pip.ip_address
+        value       = azurerm_public_ip.watech-pip.ip_address
     }
 
 </details>
@@ -584,17 +584,17 @@ Next, assign this public IP to a network interface card (NIC). In this resource,
 <details>
 <summary>Solution</summary>
 
-    resource "azurerm_network_interface" "bctf-nic" {
+    resource "azurerm_network_interface" "watech-nic" {
         name                = "${local.rootname}-nic"
         location            = var.location
-        resource_group_name = azurerm_resource_group.bctf-rg.name
+        resource_group_name = azurerm_resource_group.watech-rg.name
         tags                = local.tags
 
         ip_configuration {
             name                          = "${local.rootname}-nic-cfg"
-            subnet_id                     = azurerm_subnet.bctf-subnet.id
+            subnet_id                     = azurerm_subnet.watech-subnet.id
             private_ip_address_allocation = "Dynamic"
-            public_ip_address_id          = azurerm_public_ip.bctf-pip.id
+            public_ip_address_id          = azurerm_public_ip.watech-pip.id
         }
     }
 
@@ -618,7 +618,7 @@ provider "tls" {}
 <details>
 <summary>Solution</summary>
 
-    resource "tls_private_key" "bctf-ssh-key" {
+    resource "tls_private_key" "watech-ssh-key" {
         algorithm = "RSA"
         rsa_bits  = 4096
     }
@@ -632,7 +632,7 @@ Of course, we need some way to extract this key after it has been created and ad
 
     output "private_ssh_key" {
         description = "The private SSH key to access the VRE"
-        value       = tls_private_key.bctf-ssh-key.private_key_pem
+        value       = tls_private_key.watech-ssh-key.private_key_pem
     }
 
 </details>
@@ -648,7 +648,7 @@ If you now run `terraform apply`, it should output the key in plain text. Oh no!
 
     output "private_ssh_key" {
         description = "The private SSH key to access the VRE"
-        value       = tls_private_key.bctf-ssh-key.private_key_pem
+        value       = tls_private_key.watech-ssh-key.private_key_pem
         sensitive   = true
     }
 
@@ -656,12 +656,12 @@ If you now run `terraform apply`, it should output the key in plain text. Oh no!
 
 Run `terraform apply` again to see the key is now redacted from the output, which can be particularly useful in deployment pipelines. The best practice would be to write the key to a secure vault and read it from there, but for debugging purposes it can be useful to add the key to the `outputs.tf` file. But when it is sensitive, there is still no way to access it without needing to grab and scroll through the state file. For that, you can use the `terraform output` command to extract the value of an output variable from the state file. More information is available [here](https://www.terraform.io/docs/cli/commands/output.html).
 
-> Use the `terraform output` command to extract the private key and write this to a file called `bctf-private-key.pem`. Use the `-raw` flag to be able to access a sensitive output.
+> Use the `terraform output` command to extract the private key and write this to a file called `watech-private-key.pem`. Use the `-raw` flag to be able to access a sensitive output.
 
 <details>
 <summary>Solution</summary>
 
-    terraform output -raw private_ssh_key > bctf-private-key.pem && chmod 600 bctf-private-key.pem
+    terraform output -raw private_ssh_key > watech-private-key.pem && chmod 600 watech-private-key.pem
 
 </details>
 
@@ -674,12 +674,12 @@ We can now go ahead and create our virtual machine. We've already done a lot of 
 <details>
 <summary>Solution</summary>
 
-    resource "azurerm_linux_virtual_machine" "bctf-vm" {
+    resource "azurerm_linux_virtual_machine" "watech-vm" {
         name                  = "${local.rootname}-vm"
         location              = var.location
-        resource_group_name   = azurerm_resource_group.bctf-rg.name
+        resource_group_name   = azurerm_resource_group.watech-rg.name
         size                  = "Standard_B2ms"
-        network_interface_ids = [azurerm_network_interface.bctf-nic.id]
+        network_interface_ids = [azurerm_network_interface.watech-nic.id]
         admin_username        = var.yourname
         computer_name         = local.trimmed_rootname
         tags                  = local.tags
@@ -687,7 +687,7 @@ We can now go ahead and create our virtual machine. We've already done a lot of 
         # SSH key authentication
         admin_ssh_key {
             username   = var.yourname
-            public_key = tls_private_key.bctf-ssh-key.public_key_openssh
+            public_key = tls_private_key.watech-ssh-key.public_key_openssh
         }
         disable_password_authentication = true
 
@@ -708,7 +708,7 @@ We can now go ahead and create our virtual machine. We've already done a lot of 
         }
 
         boot_diagnostics {
-            storage_account_uri = azurerm_storage_account.bctf-sa.primary_blob_endpoint
+            storage_account_uri = azurerm_storage_account.watech-sa.primary_blob_endpoint
         }
     }
 
@@ -721,7 +721,7 @@ Head over to the [Azure portal](https://portal.azure.com/#blade/HubsExtension/Br
 
 You should now be able to connect to the VRE using the following command:
 ```
-ssh -i bctf-private-key.pem <your_name>@<ip_address>
+ssh -i watech-private-key.pem <your_name>@<ip_address>
 ```
 
 If this does not work, try using the ssh-agent combined with the `terraform output` command.
