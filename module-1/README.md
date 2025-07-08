@@ -551,6 +551,7 @@ Running `terraform apply` now will create the subnet for us.
 In order to connect to the virtual machine at the end of this workshop, we need to create and assign a public IP address to this virtual machine. This one should be pretty easy if you remember everything you've learned until now, so I won't give away a lot of information. 
 
 > Create a *dynamic* public IP address that we can assign to the virtual machine we are about to create, and tell Terraform to output this IP address. Be sure to use the expression syntax and add tags!
+> Note that you would need  to set the sku to basic in your terraform!
 
 <details>
 <summary>Solution</summary>
