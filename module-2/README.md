@@ -329,18 +329,9 @@ output "nginx_homepage" {
 ---
 
 
-
-### Working with `local-exec`
-
-TO DO
-
-### Working with `remote-exec`
-
-TO DO
-
 ## Level 4: Secure network access to and between your virtual machine and key vault
 
-By default, your Azure resources will be open to the internet. This means that SSH access over internet is possible without any firewall or IP whitelist in place. The same goes for your Key Vault, which is accessible using the Azure API. Ofcourse, these resources are protected by Azure RBAC, but in cloud it is best practice to disable internet access by default.
+By default, your Azure resources will be open to the internet. This means that SSH access over internet is possible without any firewall or IP whitelist in place. The same goes for your Key Vault, which is accessible using the Azure API. Of course, these resources are protected by Azure RBAC, but in cloud it is best practice to disable internet access by default.
 
 Azure has the concept of **network security groups (NSGs)** to add a layer of security to your network. You can attach these NSGs to your subnets to centralize network rules. A single NSG can contain multiple security rules and can be attached to multiple subnets. A security rule is basically a way to deny or allow specific inbound or onbound traffic to a network port from a specific IP address or CIDR range.
 
