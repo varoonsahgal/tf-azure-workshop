@@ -8,7 +8,7 @@ locals {
   rootname         = "bctf-${var.yourname}-${var.location}"
   trimmed_rootname = "bctf${var.yourname}${var.location}"
   tags = {
-    "costCenter" = "BrightCubesInternal"
+    "costCenter" = "WaTechInternal"
     "owner"      = var.yourname
     "region"     = var.location
   }
