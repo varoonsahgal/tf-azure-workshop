@@ -57,10 +57,10 @@ Note: you can also use Azure RBAC for authorization, but that it out of scope fo
 <summary>Solution</summary>
 
 ```hcl
-resource "azurerm_key_vault" "bctf-kv" {
+resource "azurerm_key_vault" "watech-kv" {
   name                = "${local.trimmed_rootname}-kv"
   location            = var.location
-  resource_group_name = azurerm_resource_group.bctf-rg.name
+  resource_group_name = azurerm_resource_group.watech-rg.name
   tenant_id           = data.azurerm_client_config.current.tenant_id
   sku_name            = "standard"
   tags                = local.tags
@@ -109,19 +109,19 @@ As you can see in the Security Notice of the [tls_private_key resource](https://
 <summary>Solution</summary>
 
 ```hcl
-resource "azurerm_key_vault_secret" "bctf-private-key" {
+resource "azurerm_key_vault_secret" "watech-private-key" {
     name            = "private-key-openssh"
-    value           = tls_private_key.bctf-ssh-key.private_key_openssh
-    key_vault_id    = azurerm_key_vault.bctf-kv.id
-    expiration_date = "2022-12-31T00:00:00Z"
+    value           = tls_private_key.watech-ssh-key.private_key_openssh
+    key_vault_id    = azurerm_key_vault.watech-kv.id
+    expiration_date = "2025-12-31T00:00:00Z"
     content_type    = "openssh private key"
 }
 
-resource "azurerm_key_vault_secret" "bctf-public-key" {
+resource "azurerm_key_vault_secret" "watech-public-key" {
     name            = "public-key-openssh"
-    value           = tls_private_key.bctf-ssh-key.public_key_openssh
-    key_vault_id    = azurerm_key_vault.bctf-kv.id
-    expiration_date = "2022-12-31T00:00:00Z"
+    value           = tls_private_key.watech-ssh-key.public_key_openssh
+    key_vault_id    = azurerm_key_vault.watech-kv.id
+    expiration_date = "2025-12-31T00:00:00Z"
     content_type    = "openssh public key"
 }
 ```
@@ -152,7 +152,7 @@ Now that we have created the secrets in the Azure Key Vault, you can check them 
 ...
   admin_ssh_key {
     username   = var.yourname
-    public_key = azurerm_key_vault_secret.bctf-public-key.value
+    public_key = azurerm_key_vault_secret.watech-public-key.value
   }
 ...
 ```
@@ -165,11 +165,11 @@ Ideally you want to be able to access Azure resources from within your virtual m
 
 Let's experiment with this and SSH into our machine. If you do not have your private key anymore, you can grab it from the Azure Key vault using the following command:
 
-`az keyvault secret download --file bctf-private-key.pem --vault-name <name-of-your-key-vault> --name private-key-openssh`
+`az keyvault secret download --file watech-private-key.pem --vault-name <name-of-your-key-vault> --name private-key-openssh`
 
 Then login to your machine the same way you did in module 1:
 
-`ssh -i bctf-private-key.pem <your_name>@<ip_address>`
+`ssh -i watech-private-key.pem <your_name>@<ip_address>`
 
 Install the Azure CLI using the following command:
 
@@ -213,7 +213,7 @@ What we would like to do now is give the identity of our virtual machine access 
 ...
 access_policy {
     tenant_id = data.azurerm_client_config.current.tenant_id
-    object_id = azurerm_linux_virtual_machine.bctf-vm.identity.principal_id
+    object_id = azurerm_linux_virtual_machine.watech-vm.identity.principal_id
 
     secret_permissions = ["Get",]
   }
@@ -226,13 +226,13 @@ Now when you try to run it, it will show the following message:
 
 <details>
 <summary>Output</summary>
-    Error: Cycle: azurerm_key_vault_secret.bctf-public-key, azurerm_linux_virtual_machine.bctf-vm, azurerm_key_vault.bctf-kv
+    Error: Cycle: azurerm_key_vault_secret.watech-public-key, azurerm_linux_virtual_machine.watech-vm, azurerm_key_vault.watech-kv
 </details>
 <p></p>
 
-This is a great example of what Terraform calls *implicit dependencies* ([more here](https://learn.hashicorp.com/tutorials/terraform/dependencies)). What is basically happening, is that Terraform automatically creates resources in a specific order based on their dependencies, which are defined using resource references. The problem here is that we are defining an access policy for `azurerm_linux_virtual_machine.bctf-vm` on key vault `azurerm_key_vault.bctf-kv` which means Terraform will first create the virtual machine and then reference it in the access policy. But the virtual machine is also reliant on the `azurerm_key_vault_secret.bctf-public-key` which is only created after the Key Vault is created. This causes a cycle that Terraform cannot understand by itself.
+This is a great example of what Terraform calls *implicit dependencies* ([more here](https://learn.hashicorp.com/tutorials/terraform/dependencies)). What is basically happening, is that Terraform automatically creates resources in a specific order based on their dependencies, which are defined using resource references. The problem here is that we are defining an access policy for `azurerm_linux_virtual_machine.watech-vm` on key vault `azurerm_key_vault.watech-kv` which means Terraform will first create the virtual machine and then reference it in the access policy. But the virtual machine is also reliant on the `azurerm_key_vault_secret.watech-public-key` which is only created after the Key Vault is created. This causes a cycle that Terraform cannot understand by itself.
 
-> To solve this, change back the reference to `tls_private_key.bctf-ssh-key.private_key_openssh` on your `azurerm_linux_virtual_machine` resource.
+> To solve this, change back the reference to `tls_private_key.watech-ssh-key.private_key_openssh` on your `azurerm_linux_virtual_machine` resource.
 
 Our virtual machine now has access to the Key Vault using it's own identity. We can now log back in to the virtual machine and authenticate to Azure without specifying any credentials:
 
@@ -268,16 +268,16 @@ Azure has the concept of **network security groups (NSGs)** to add a layer of se
 <summary>Solution</summary>
 
 ```hcl
-resource "azurerm_network_security_group" "bctf-nsg" {
+resource "azurerm_network_security_group" "watech-nsg" {
   name                = "${local.rootname}-nsg"
   location            = var.location
-  resource_group_name = azurerm_resource_group.bctf-rg.name
+  resource_group_name = azurerm_resource_group.watech-rg.name
   tags                = local.tags
 }
 
-resource "azurerm_subnet_network_security_group_association" "bctf-nsg_to_subnet" {
-  subnet_id                 = azurerm_subnet.bctf-subnet.id
-  network_security_group_id = azurerm_network_security_group.bctf-nsg.id
+resource "azurerm_subnet_network_security_group_association" "watech-nsg_to_subnet" {
+  subnet_id                 = azurerm_subnet.watech-subnet.id
+  network_security_group_id = azurerm_network_security_group.watech-nsg.id
 }
 ```
 
@@ -304,8 +304,8 @@ resource "azurerm_network_security_rule" "ssh-access" {
   destination_port_range      = "22"
   source_address_prefix       = "<your ip address>" # Your own IP address
   destination_address_prefix  = "*"
-  resource_group_name         = azurerm_resource_group.bctf-workspace-rg.name
-  network_security_group_name = azurerm_network_security_group.bctf-nsg.name
+  resource_group_name         = azurerm_resource_group.watech-workspace-rg.name
+  network_security_group_name = azurerm_network_security_group.watech-nsg.name
 }
 ```
 
@@ -322,16 +322,16 @@ Note: before continuing here, add `service_endpoints` to your subnet for Microso
 <summary>Solution</summary>
 
 ```hcl
-# azurerm_subnet.bctf-subnet
+# azurerm_subnet.watech-subnet
 ...
 service_endpoints = ["Microsoft.KeyVault"]
 
-# azurerm_key_vault.bctf-kv
+# azurerm_key_vault.watech-kv
 ...
   network_acls {
     default_action             = "Deny"
     bypass                     = "AzureServices"
-    virtual_network_subnet_ids = [azurerm_subnet.bctf-subnet.id]
+    virtual_network_subnet_ids = [azurerm_subnet.watech-subnet.id]
     ip_rules                   = ["<your ip address>"] # Your own IP address
   }
 ...
