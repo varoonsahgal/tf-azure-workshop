@@ -44,7 +44,7 @@ While Terraform is not technically a programming language, there are several bui
 ```hcl
 # main.tf
 locals {
-  rootname         = "bctf-${var.yourname}-${var.location}"
+  rootname         = "watech-${var.yourname}-${var.location}"
   trimmed_rootname = replace(local.rootname, "-", "")
 ...
 ```
@@ -111,8 +111,8 @@ enable_vm_shutdown = true
 vm_shutdown_time   = 2000
 
 # main.tf
-resource "azurerm_dev_test_global_vm_shutdown_schedule" "bctf-vm-shutdown" {
-  virtual_machine_id = azurerm_linux_virtual_machine.bctf-vm.name
+resource "azurerm_dev_test_global_vm_shutdown_schedule" "watech-vm-shutdown" {
+  virtual_machine_id = azurerm_linux_virtual_machine.watech-vm.name
   location           = var.location
   enabled            = var.enable_vm_shutdown
 
@@ -124,7 +124,7 @@ resource "azurerm_dev_test_global_vm_shutdown_schedule" "bctf-vm-shutdown" {
   }
 }
 
-resource "azurerm_linux_virtual_machine" "bctf-vm" {
+resource "azurerm_linux_virtual_machine" "watech-vm" {
   ...
   tags = merge(
     local.tags,
@@ -158,20 +158,20 @@ variable "add_data_disk" {
 add_data_disk = true
 
 # main.tf
-resource "azurerm_managed_disk" "bctf-vm-datadisk" {
+resource "azurerm_managed_disk" "watech-vm-datadisk" {
   count                = var.add_data_disk ? 1 : 0
-  name                 = "${azurerm_linux_virtual_machine.bctf-vm.name}-datadisk"
+  name                 = "${azurerm_linux_virtual_machine.watech-vm.name}-datadisk"
   location             = var.location
-  resource_group_name  = azurerm_resource_group.bctf-rg.name
+  resource_group_name  = azurerm_resource_group.watech-rg.name
   storage_account_type = "Standard_LRS"
   disk_size_gb         = 128
   create_option        = "Empty"
 }
 
-resource "azurerm_virtual_machine_data_disk_attachment" "bctf-vm-datadisk-attach" {
+resource "azurerm_virtual_machine_data_disk_attachment" "watech-vm-datadisk-attach" {
   count              = var.add_data_disk ? 1 : 0
-  managed_disk_id    = azurerm_managed_disk.bctf-vm-datadisk[count.index].id
-  virtual_machine_id = azurerm_linux_virtual_machine.bctf-vm.id
+  managed_disk_id    = azurerm_managed_disk.watech-vm-datadisk[count.index].id
+  virtual_machine_id = azurerm_linux_virtual_machine.watech-vm.id
   lun                = "10"
   caching            = "ReadWrite"
 }
@@ -217,22 +217,22 @@ data_disks = {
 }
 
 # main.tf
-resource "azurerm_managed_disk" "bctf-vm-datadisk" {
+resource "azurerm_managed_disk" "watech-vm-datadisk" {
   for_each = var.data_disks
   
   name                 = each.value.name
   location             = var.location
-  resource_group_name  = azurerm_resource_group.bctf-rg.name
+  resource_group_name  = azurerm_resource_group.watech-rg.name
   storage_account_type = "Standard_LRS"
   disk_size_gb         = each.value.size
   create_option        = "Empty"
 }
 
-resource "azurerm_virtual_machine_data_disk_attachment" "bctf-vm-datadisk-attach" {
+resource "azurerm_virtual_machine_data_disk_attachment" "watech-vm-datadisk-attach" {
   for_each = var.data_disks
   
-  managed_disk_id    = azurerm_managed_disk.bctf-vm-datadisk[each.key].id
-  virtual_machine_id = azurerm_linux_virtual_machine.bctf-vm.id
+  managed_disk_id    = azurerm_managed_disk.watech-vm-datadisk[each.key].id
+  virtual_machine_id = azurerm_linux_virtual_machine.watech-vm.id
   lun                = 10 + each.key
   caching            = "ReadWrite"
 }
@@ -250,7 +250,7 @@ With remote state, Terraform writes the state data to a remote data store, which
 
 By default, Terraform uses a backend called local, which stores state as a local file on disk. But in any use case where you are not the only person using the Terraform infrastructure, you should always configure a Terraform backend. In this module, we will configure an `azurerm` backend and store our Terraform state in an Azure storage account. Since the state file contains sensitive data that should be protected, we will prevent a meta situation where we store the Terraform state file in the same storage account as the one we create with our Terraform code. You should make sure that the storage account you use for Terraform state files is well protected. In this workshop we will use a pre-created storage account and storage container.
 
-> Create a file `backend.tf` containing an `azurerm` backend configuration. The storage account name is `bcworkshoptfstates` in resource group `bctf-workshop-rg` and the container name is `tfstates`. You can think of your own `key` (filename) and you can just use your Azure CLI authentication mechanism. Run `terraform init` again to initialize the new backend configuration.
+> Create a file `backend.tf` containing an `azurerm` backend configuration. The storage account name is `bcworkshoptfstates` in resource group `watech-workshop-rg` and the container name is `tfstates`. You can think of your own `key` (filename) and you can just use your Azure CLI authentication mechanism. Run `terraform init` again to initialize the new backend configuration.
 
 <details>
 <summary>Solution</summary>
@@ -259,7 +259,7 @@ By default, Terraform uses a backend called local, which stores state as a local
 # backend.tf
 terraform {
   backend "azurerm" {
-    resource_group_name  = "bctf-workshop-rg"
+    resource_group_name  = "watech-workshop-rg"
     storage_account_name = "bcworkshoptfstates"
     container_name       = "tfstates"
     key                  = "tommy.terraform.tfstate"
@@ -288,7 +288,7 @@ module "azure-vnet" {
   source              = "Azure/vnet/azurerm"
 
   vnet_name           = "${local.rootname}-vnet"
-  resource_group_name = azurerm_resource_group.bctf-rg.name
+  resource_group_name = azurerm_resource_group.watech-rg.name
   address_space       = ["10.5.0.0/16"]
   subnet_prefixes     = ["10.5.90.0/24", "10.5.100.0/24"]
   subnet_names        = ["subnet1", "subnet2"]
@@ -299,21 +299,21 @@ module "azure-vnet" {
   }
 
   nsg_ids = {
-    subnet1 = azurerm_network_security_group.bctf-nsg.id
-    subnet2 = azurerm_network_security_group.bctf-nsg.id
+    subnet1 = azurerm_network_security_group.watech-nsg.id
+    subnet2 = azurerm_network_security_group.watech-nsg.id
   }
 
   tags = local.tags
 }
 
-resource "azurerm_network_interface" "bctf-nic" {
+resource "azurerm_network_interface" "watech-nic" {
 ...
   ip_configuration {
     name                          = "${local.rootname}-nic-cfg"
     subnet_id                     = module.azure-vnet.vnet_subnets[0]
 ...
 
-resource "azurerm_key_vault" "bctf-kv" {
+resource "azurerm_key_vault" "watech-kv" {
 ...
   network_acls {
     default_action             = "Deny"
