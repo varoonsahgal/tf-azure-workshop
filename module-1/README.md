@@ -476,7 +476,7 @@ Also add a tags property to your resources, referencing the `tags` block.
         rootname         = "watech-${var.yourname}-${var.location}"
         trimmed_rootname = "watech${var.yourname}${var.location}"
         tags = {
-           "costCenter" = "BrightCubesInternal"
+           "costCenter" = "WatechInternal"
            "owner"      = var.yourname
            "region"     = var.location
         }
