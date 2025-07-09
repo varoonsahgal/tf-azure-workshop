@@ -248,6 +248,88 @@ The assignments we are going to do below are not really a good practice, but sho
 
 The main 'ugly' provisioners you will use are `local-exec` and `remote-exec`. The simple difference is that you use `local-exec` for running a command on the machine Terraform is running on (like your local device), and `remote-exec` is for running something on the resource you declare it in (like on the virtual machine you are creating). An alternative to this is running it as part of a `null_resource`.
 
+
+
+
+---
+
+### Working with `local-exec`
+
+We will use the `local-exec` provisioner to run a command **on the same machine running Terraform** (like your local laptop or your pipeline agent). This can be helpful when you want to record information after deployment or trigger external scripts.
+
+> Write the public IP address of your virtual machine to a file on your local machine named `vm_ip.txt`. This can be useful if you want to share the IP with another script, automation step, or simply log it.
+
+<details>
+<summary>Solution</summary>
+
+```hcl
+resource "null_resource" "write_vm_ip" {
+  provisioner "local-exec" {
+    command = "echo ${azurerm_public_ip.watech-public-ip.ip_address} > vm_ip.txt"
+  }
+
+  depends_on = [azurerm_linux_virtual_machine.watech-vm]
+}
+```
+
+</details>
+
+**Bonus points**: Make the path of the file configurable by introducing a variable (e.g. `output_file_path`).
+
+---
+
+### Working with `remote-exec`
+
+The `remote-exec` provisioner runs commands **on the virtual machine** itself after it has been created. This is often used to perform lightweight configuration without using a full configuration management tool.
+
+> Use `remote-exec` to install NGINX on your Linux virtual machine. You’ll SSH into the VM and run the required commands.
+
+<details>
+<summary>Solution</summary>
+
+```hcl
+resource "null_resource" "remote_nginx_install" {
+  depends_on = [azurerm_linux_virtual_machine.watech-vm]
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt-get update",
+      "sudo apt-get install -y nginx"
+    ]
+  }
+
+  connection {
+    type        = "ssh"
+    user        = var.yourname
+    private_key = tls_private_key.watech-ssh-key.private_key_openssh
+    host        = azurerm_public_ip.watech-public-ip.ip_address
+  }
+}
+```
+
+</details>
+
+**Bonus points**:
+
+* Add an `output` to display the NGINX homepage URL:
+
+<details>
+<summary>Bonus Output</summary>
+
+```hcl
+output "nginx_homepage" {
+  value = "http://${azurerm_public_ip.watech-public-ip.ip_address}"
+}
+```
+
+</details>
+
+* Add a provisioner command that touches a file like `/tmp/nginx-installed.txt` to prove installation.
+
+---
+
+
+
 ### Working with `local-exec`
 
 TO DO
