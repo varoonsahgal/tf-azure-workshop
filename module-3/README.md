@@ -250,7 +250,7 @@ With remote state, Terraform writes the state data to a remote data store, which
 
 By default, Terraform uses a backend called local, which stores state as a local file on disk. But in any use case where you are not the only person using the Terraform infrastructure, you should always configure a Terraform backend. In this module, we will configure an `azurerm` backend and store our Terraform state in an Azure storage account. Since the state file contains sensitive data that should be protected, we will prevent a meta situation where we store the Terraform state file in the same storage account as the one we create with our Terraform code. You should make sure that the storage account you use for Terraform state files is well protected. In this workshop we will use a pre-created storage account and storage container.
 
-> Create a file `backend.tf` containing an `azurerm` backend configuration. The storage account name is `bcworkshoptfstates` in resource group `watech-workshop-rg` and the container name is `tfstates`. You can think of your own `key` (filename) and you can just use your Azure CLI authentication mechanism. Run `terraform init` again to initialize the new backend configuration.
+> Create a file `backend.tf` containing an `azurerm` backend configuration. The storage account name is `watechworkshoptfstates` in resource group `watech-workshop-rg` and the container name is `tfstates`. You can think of your own `key` (filename) and you can just use your Azure CLI authentication mechanism. Run `terraform init` again to initialize the new backend configuration.
 
 <details>
 <summary>Solution</summary>
@@ -260,7 +260,7 @@ By default, Terraform uses a backend called local, which stores state as a local
 terraform {
   backend "azurerm" {
     resource_group_name  = "watech-workshop-rg"
-    storage_account_name = "bcworkshoptfstates"
+    storage_account_name = "watechworkshoptfstates"
     container_name       = "tfstates"
     key                  = "tommy.terraform.tfstate"
   }
